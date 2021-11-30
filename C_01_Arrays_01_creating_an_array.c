@@ -1,5 +1,6 @@
 //TO ADD THE ELEMENTS OF AN ARRAY
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
