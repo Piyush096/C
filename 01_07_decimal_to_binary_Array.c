@@ -13,7 +13,7 @@ int main(void)
 
     while (1)
     {
-        printf("Enter a decimal number between %d and %d: ", 0, (1 << size) - 1);
+        printf("Enter a decimal no. bet. %d and %d: ", 0, (1 << size) - 1);
         scanf("%d", &n);
         if ((n >= 0) && (n < (1 << size)))
             break;
