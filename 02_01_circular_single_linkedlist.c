@@ -1,90 +1,226 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 typedef struct node
 {
     int data;
     struct node *next;
-} node;
-node *head = NULL, *tail = NULL;
-void addNewNodeAtEnd(int data)
+}
+Node;
+Node * create(Node *);
+void display(Node *);
+Node * insertion_at_Front(Node *);
+Node * insertion_at_end(Node *);
+Node * insertion_at_CertainPosition(Node *);
+Node * deletion_at_Front(Node *);
+Node * deletion_at_end(Node *);
+Node * deletion_at_CertainPosition(Node *);
+int number_of_nodes(Node *);
+int main(void)
 {
-    node *newNode = (node *)malloc(sizeof(node));
-    newNode->data = data;
-    newNode->next = NULL;
-    if (head == NULL)
+    Node *tail=NULL;
+    int choice;
+    do
     {
-        head = newNode;
-        tail = newNode;
+        printf("\n\nPress 1 for creating a list");
+        printf("\nPress 2 for display the list");
+        printf("\nPress 3 for insertion at front");
+        printf("\nPress 4 for insertion at end");
+        printf("\nPress 5 for insertion at certain position");
+        printf("\nPress 6 for deletion at front");
+        printf("\nPress 7 for deletion at end");
+        printf("\nPress 8 for deletion from a certain positon");
+        printf("\nPress 9 for exit");
+        printf("\nEnter your choice:");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                tail=create(tail);
+                break;
+            case 2:
+                display(tail);
+                break;
+            case 3:
+                tail=insertion_at_Front(tail);
+                break;
+            case 4:
+                tail=insertion_at_end(tail);
+                break;
+            case 5:
+                tail=insertion_at_CertainPosition(tail);
+                break;
+            case 6:
+                tail=deletion_at_Front(tail);
+                break;
+            case 7:
+                tail=deletion_at_end(tail);
+                break;
+            case 8:
+                tail=deletion_at_CertainPosition(tail);
+                break;
+            case 9:
+                exit(1);
+            default:
+                printf("Enter a valid input");
+        }
+    }while(1);
+    return 0;
+}
+Node *create(Node * tail)
+{
+    Node *temp=(Node *)malloc(sizeof(Node));
+    if(!temp)
+    {
+        printf("Unsuccessful Allocation!!");
+        exit(EXIT_FAILURE);
+    }
+    else if(!tail)
+        temp->next=temp;
+    else
+    {
+        temp->next=tail->next;
+        tail->next=temp;
+    }
+    printf("\nEnter the data:");
+    scanf("%d",&temp->data);
+    tail=temp;
+    return tail;
+}
+void display(Node * tail)
+{
+    if(!tail)
+        printf("\nThe list is empty!!");
+    else
+    {
+        Node *current=tail->next;
+        printf("\nYour list is:-\n");
+        do
+        {
+            printf("%d\t",current->data);
+            current=current->next;
+        }while(current!=tail->next);
+    }
+}
+Node * insertion_at_Front(Node *tail)
+{
+    Node *temp=(Node *)malloc(sizeof(Node));
+    if(!temp)
+    {
+        printf("Unsuccessful Allocation!");
+        exit(EXIT_FAILURE);
+    }
+    else if(!tail)
+        tail=create(tail);
+    else
+    {
+        temp->next=tail->next;
+        tail->next=temp;
+        printf("\nEnter the data:");
+        scanf("%d",&temp->data);
+    }
+    return tail;
+}
+Node * insertion_at_end(Node *tail)
+{
+    tail=create(tail);
+    return tail;
+}
+Node * insertion_at_CertainPosition(Node *tail)
+{
+    int count=number_of_nodes(tail);
+    printf("\nEnter the position at which you want to insert the node:");
+    int position=0;
+    scanf("%d",&position);
+    if(position-1>count || position<1)
+        printf("\nInvalid position...");
+    else if(!tail)
+        tail=insertion_at_Front(tail);
+    else if(position==1)
+        tail=insertion_at_Front(tail);
+    else if((position-1)==count)
+        tail=insertion_at_end(tail);
+    else
+    {
+        Node *temp=(Node *)malloc(sizeof(Node)),*current=tail->next;
+        for(int i=1;i<position-1;i++)
+            current=current->next;
+        temp->next=current->next;
+        current->next=temp;
+        printf("Enter the data:");
+        scanf("%d",&temp->data);
+    }
+    return tail;
+}
+Node * deletion_at_Front(Node * tail)
+{
+    if(!tail)
+        printf("\nThere are no nodes in the list to be deleted");
+    else if((number_of_nodes(tail))==1)
+    {
+        free(tail);
+        tail=NULL;
     }
     else
     {
-        tail->next = newNode;
-        tail = newNode;
-        tail->next = head;
+        Node *temp=tail->next;
+        tail->next=temp->next;
+        free(temp);
     }
+    return tail;
 }
-void addNewNodeAtBeg(int data)
+Node * deletion_at_end(Node *tail)
 {
-    node *newNode = (node *)malloc(sizeof(node));
-    newNode->data = data;
-    if (head == NULL)
-    {
-        head = newNode;
-        tail = newNode;
-    }
+    if(!tail)
+        printf("\nThere are no nodes in the list to be deleted");
+    else if((number_of_nodes(tail))==1)
+        tail=deletion_at_Front(tail);
     else
     {
-        newNode->next = head;
-        head = newNode;
-        tail->next = head;
+        Node * Current=tail->next;
+        while(Current->next!=tail)
+            Current=Current->next;
+        Current->next=tail->next;
+        free(tail);
+        tail=Current;
     }
+    return tail;
 }
-void display()
+Node * deletion_at_CertainPosition(Node * tail)
 {
-    char choice;
-
-    do
-    {   node *temp = head;
-        while (temp->next != head)
-        {
-            printf("%d ", temp->data);
-            temp = temp->next;
-        }
-        printf("%d ", temp->data);
-        printf("Do you want to continue(y/n): ");
-        scanf(" %c", &choice);
-    } while (choice == 'y' || choice == 'Y');
-}
-int main()
-{
-    char c;
-    do
+    printf("\nEnter the position of the node which you want to delete:");
+    int position=0;
+    scanf("%d",&position);
+    if(position>number_of_nodes(tail) || position<1)
+        printf("Invalid position");
+    else if(!tail)
+        printf("There are no nodes in the list to be deleted");
+    else if(position==1)
+        tail=deletion_at_Front(tail);
+    else if(position==number_of_nodes(tail))
+        tail=deletion_at_end(tail);
+    else
     {
-        printf("1.Insert at beg\n2.Insert at end\n3.Display\nEnter choice: ");
-        int inp;
-        scanf("%d", &inp);
-        switch (inp)
+        Node *current=tail->next;
+        for(int i=1;i<position-1;i++)
+            current=current->next;
+        Node *temp=current->next;
+        current->next=current->next->next;
+        free(temp);
+    }
+    return tail;
+}
+int number_of_nodes(Node *tail)
+{
+    if(!tail)
+        return 0;
+    else
+    {   int count=0;
+        Node *current=tail->next;
+        do
         {
-        case 1:
-            printf("Enter element: ");
-            int ele;
-            scanf("%d", &ele);
-            addNewNodeAtBeg(ele);
-            break;
-        case 2:
-            printf("Enter element: ");
-            int el;
-            scanf("%d", &el);
-            addNewNodeAtEnd(el);
-            break;
-        case 3:
-            display();
-            break;
-
-        default:
-            break;
-        }
-        printf("Do you want to continue(y/n)");
-        scanf(" %c", &c);
-    } while (c == 'y' || c == 'Y');
+            count++;
+            current=current->next;
+        }while(current!=tail->next);
+        return count;
+    }
 }

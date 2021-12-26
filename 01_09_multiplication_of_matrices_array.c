@@ -43,7 +43,7 @@ int main(void)
 
                 product[i][j] = sum;
 
-                printf("%d ", product[i][j]);
+                printf("%d ", sum);
             }
 
             printf("\n");
