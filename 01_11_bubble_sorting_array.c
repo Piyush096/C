@@ -24,7 +24,7 @@ int main(void)
     }
 
     int temp;
-    bool list_is_already_sorted = true;   // To make the best case time complexity equal to O(n).
+    bool array_is_already_sorted = true;   // To make the best case time complexity equal to O(n).
 
     for(int i = 1; i < n; i++)
     {
@@ -32,14 +32,14 @@ int main(void)
         {
             if(arr[j] > arr[j+1])
             {
-                list_is_already_sorted = false;
+                array_is_already_sorted = false;
                 temp = arr[j];
                 arr[j] =arr[j+1];
                 arr[j+1] = temp;
             }
         }
 
-        if (list_is_already_sorted)
+        if (array_is_already_sorted)
             break;
     }
 
