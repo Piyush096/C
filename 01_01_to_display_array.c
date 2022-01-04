@@ -1,4 +1,4 @@
-// TO INPUTS VALUES INTO AN ARRAY AND DISPLAY
+// TO INPUTS VALUES INTO AN ARRAY AND DISPLAY.
 #include <stdio.h>
 
 int main(void)
