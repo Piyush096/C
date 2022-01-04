@@ -1,9 +1,0 @@
-1.an array is a collection of similar data item and each data items is called an element.
-2.the no of subscripts determine the dimenssion of an array .
-3.the one dimenssion is known as vector and two dimession is known as matrices.
-4.declaration of an array :-
-  int size =15;
-  float salary[size];  / it is valid/
-  int marks[size];     / it is optional after C11 /
-
-5.	
