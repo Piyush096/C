@@ -1,69 +1,44 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <limits.h>
+
+#define N 5
+
 int main(void)
 {
-    int T, x;
-    char K[14];
+    int cost[N+1][N+1] = { {0      , 0      , 0      , 0      , 0      , 0      },
+                           {0      , 0      , 3      , 8      , INT_MAX, -4     },
+                           {0      , INT_MAX, 0      , INT_MAX, 1      , 7      },
+                           {0      , INT_MAX, 4      , 0      , INT_MAX, INT_MAX},
+                           {0      , 2      , INT_MAX, -5     , 0      , INT_MAX},
+                           {0      , INT_MAX, INT_MAX, INT_MAX, 6      , 0      } };
 
+    int dist[N+1];
+    int v = 1;
 
-    scanf("%d",&T);
-    for(int i = 0; i < T; i++)
-      {
-          int carlsen_win = 0, chef_win = 0;
-          scanf("%d",&x);
-          for(int p = 0; p < 15; p++)
+    for (int i = 1; i <= N; i++)
+        dist[i] = cost[v][i];
+
+    printf("dist 1: ");
+    for (int i = 1; i <= N; i++)
+        printf("%d ", dist[i]);
+    putchar('\n');
+
+    for (int k = 2; k <= (N - 1); k++)
+    {
+        for (int u = 2; u <= N; u++)
+        {
+            for (int i = 1; i <= N; i++)
             {
-                scanf("%c",&K[p]);
-                if(K[p] == 'C')
-                  carlsen_win = carlsen_win + 2;
-                else if (K[p] == 'N')
-                  chef_win = chef_win +2;
-                else if (K[p] == 'D')
-                {
-                  chef_win = chef_win +1;
-                  carlsen_win = carlsen_win + 1;
-                }
+                if ((long long) dist[u] > ((long long) dist[i] + (long long) cost[i][u]))
+                    dist[u] = (dist[i] + cost[i][u]);
             }
-                if(carlsen_win > chef_win)
-                  printf("%d\n",60 * x );
+        }
 
-                else if(carlsen_win < chef_win)
-                  printf("%d\n",40 * x );
+        printf("dist %d: ", k);
+        for (int i = 1; i <= N; i++)
+            printf("%d ", dist[i]);
+        putchar('\n');
+    }
 
-                else if (carlsen_win == chef_win )
-                  printf("%d\n", 55 * x);
-       }
+    return 0;
 }
-
-
-/*#include<stdio.h>
-int main(void)
-{
-    int T, x;
-
-    char C,N,D;
-    char K[14];
-
-    int carlsen_win = 0, chef_win = 0, draw = 0;
-
-    scanf("%d",&T);
-    for(int i = 0; i < T; i++)
-      {
-          scanf("%d",&x);
-          for(int p = 0; p < 15; p++)
-            {
-                scanf("%c",K[p]);
-                if(K[p] == 'C' && K[p] == 'D')
-                  carlsen_win++;
-                else if (K[p]== 'N' && K[p] == 'D')
-                  chef_win++;
-
-                if(carlsen_win > chef_win)
-                  printf("%d",60 * x );
-
-                else if (carlsen_win == chef_win )
-                  printf("%d", 55 * x);
-
-            }
-
-      }
-}*/
