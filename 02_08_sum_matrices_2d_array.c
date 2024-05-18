@@ -5,6 +5,7 @@ int main(void)
     printf("\n");
 
     int n;
+    int a ;
     printf("enter the size of rows: ");
     scanf("%d", &n);
 
